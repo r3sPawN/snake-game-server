@@ -10,28 +10,29 @@ export class Board extends React.Component {
         { x: 10, y: 0 },
         { x: 20, y: 0 },
       ],
-      direction: "RIGHT",
+      snake_direction: "RIGHT",
       apple_possition: [{ x: 50, y: 0 }],
     };
   }
 
   componentDidMount() {
-    //   const data = this.state;
+    const data = this.state;
 
-    //   fetch("http://localhost:5000/snake", {
-    //     method: "POST", // or 'PUT'
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       console.log("Success:", data);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error:", error);
-    //     });
+    fetch("http://localhost:5000/snake", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     this.drawBoard();
     this.drawSnake();
     this.drawApple();

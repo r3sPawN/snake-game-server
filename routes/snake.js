@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Snake = require("../model/snake");
 const snakeEngine = require("../engine/snake");
+const appleEngine = require("../engine/apple");
 
 router.get("/", (req, res) => {
   Snake.find()
@@ -22,6 +23,9 @@ router.post("/", (req, res) => {
       return { x: JSON.parse(info.x), y: JSON.parse(info.y) };
     })
   );
+  const apple_position = new appleEngine(snakeBody, [100, 100]);
+  newSnake.apple_position = apple_position.applePosition;
+  //newSnake.save().then((snake) => res.json(snake));
 });
 
 router.delete("/:id", (req, res) => {

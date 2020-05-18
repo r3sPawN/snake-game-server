@@ -7,7 +7,10 @@ const DIRECTIONS = {
 
 class Snake {
   // constructor(snakeSize) {
-  //   this.snakeBody = [...new Array(snakeSize)].map((element, index) => ({ x: 0, y: index }));
+  //   this.snakeBody = [...new Array(snakeSize)].map((element, index) => ({
+  //     x: 0,
+  //     y: index,
+  //   }));
   // }
 
   move(direction) {
@@ -36,19 +39,19 @@ class Snake {
     const newHead = { ...snakeHead };
 
     if (direction === "UP") {
-      newHead.x -= 1;
+      newHead.y -= 10;
     }
 
     if (direction === "DOWN") {
-      newHead.x += 1;
+      newHead.y += 10;
     }
 
     if (direction === "LEFT") {
-      newHead.y -= 1;
+      newHead.x -= 10;
     }
 
     if (direction === "RIGHT") {
-      newHead.y += 1;
+      newHead.x += 10;
     }
 
     if (
