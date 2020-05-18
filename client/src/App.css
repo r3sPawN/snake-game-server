@@ -1,0 +1,12 @@
+.nav-bar {
+  display: flex;
+  margin: 20px;
+  justify-content: space-between;
+  border: solid 1px deepskyblue;
+  padding: 30px;
+}
+
+.home-page {
+  display: flex;
+  justify-content: center;
+}
