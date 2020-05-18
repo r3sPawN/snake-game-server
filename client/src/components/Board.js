@@ -18,7 +18,7 @@ export class Board extends React.Component {
   componentDidMount() {
     setInterval(() => {
       this.updateState();
-    }, 500);
+    }, 200);
 
     this.drawBoard();
     this.drawSnake();
@@ -90,6 +90,29 @@ export class Board extends React.Component {
     ctx.strokeRect(apple_position[0].x, apple_position[0].y, 10, 10);
   };
 
+  handleKeyPress = (event) => {
+    console.log("we here");
+
+    const down = "DOWN";
+    const up = "UP";
+    const left = "LEFT";
+    const right = "RIGHT";
+
+    if (event.keyCode === 38) {
+      this.setState({ snake_direction: up });
+    }
+    if (event.keyCode === 40) {
+      this.setState({ snake_direction: down });
+    }
+    if (event.keyCode === 39) {
+      this.setState({ snake_direction: right });
+    }
+    if (event.keyCode === 37) {
+      this.setState({ snake_direction: left });
+    }
+    console.log(this.state.snake_direction);
+  };
+
   render() {
     return (
       <div className="container">
@@ -99,6 +122,8 @@ export class Board extends React.Component {
           }}
           width="800"
           height="600"
+          onKeyDown={this.handleKeyPress}
+          tabIndex="0"
         />
       </div>
     );
