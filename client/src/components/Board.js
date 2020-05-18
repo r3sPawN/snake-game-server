@@ -11,11 +11,26 @@ export class Board extends React.Component {
         { x: 20, y: 0 },
       ],
       snake_direction: "RIGHT",
-      apple_possition: [{ x: 50, y: 0 }],
+      apple_position: [{ x: 50, y: 50 }],
     };
   }
 
   componentDidMount() {
+    setInterval(() => {
+      this.updateState();
+    }, 500);
+
+    this.drawBoard();
+    this.drawSnake();
+    this.drawApple();
+  }
+  componentDidUpdate(prevProps) {
+    this.drawBoard();
+    this.drawSnake();
+    this.drawApple();
+  }
+
+  updateState() {
     const data = this.state;
 
     fetch("http://localhost:5000/snake", {
@@ -27,15 +42,15 @@ export class Board extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
+        this.setState({
+          snake_body: data.snake_body,
+          //apple_position: data.apple_position,
+        });
         console.log("Success:", data);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    this.drawBoard();
-    this.drawSnake();
-    this.drawApple();
   }
 
   drawBoard = () => {
@@ -65,14 +80,14 @@ export class Board extends React.Component {
   };
 
   drawApple = () => {
-    const { apple_possition } = this.state;
+    const { apple_position } = this.state;
     const ctx = this.canvas.getContext("2d");
 
     ctx.fillStyle = "red";
     ctx.strokeStyle = "red";
 
-    ctx.fillRect(apple_possition[0].x, apple_possition[0].y, 10, 10);
-    ctx.strokeRect(apple_possition[0].x, apple_possition[0].y, 10, 10);
+    ctx.fillRect(apple_position[0].x, apple_position[0].y, 10, 10);
+    ctx.strokeRect(apple_position[0].x, apple_position[0].y, 10, 10);
   };
 
   render() {

@@ -25,7 +25,9 @@ router.post("/", (req, res) => {
   );
   const apple_position = new appleEngine(snakeBody, [100, 100]);
   newSnake.apple_position = apple_position.applePosition;
-  //newSnake.save().then((snake) => res.json(snake));
+  newSnake.snake_body = snakeBody;
+  newSnake.save().then((snake) => res.json(snake));
+  console.log(newSnake);
 });
 
 router.delete("/:id", (req, res) => {

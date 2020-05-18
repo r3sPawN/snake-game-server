@@ -16,8 +16,8 @@ class Apple {
   }
 
   static generateApplePosition(boardDimensions, snakeBody) {
-    const randomX = Math.floor((Math.random() * boardDimensions[0]) % 10);
-    const randomY = Math.floor((Math.random() * boardDimensions[1]) % 10);
+    const randomX = Math.floor(Math.random() * boardDimensions[0]);
+    const randomY = Math.floor(Math.random() * boardDimensions[1]);
 
     const ApplePosition = { x: randomX, y: randomY };
     if (
