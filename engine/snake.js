@@ -6,12 +6,12 @@ const DIRECTIONS = {
 };
 
 class Snake {
-  // constructor(snakeSize) {
-  //   this.snakeBody = [...new Array(snakeSize)].map((element, index) => ({
-  //     x: 0,
-  //     y: index,
-  //   }));
-  // }
+  constructor(snakeSize) {
+    this.snakeBody = [...new Array(snakeSize)].map((element, index) => ({
+      x: index * 10,
+      y: 0,
+    }));
+  }
 
   move(direction) {
     this.snakeBody = Snake.calculateSnakeBody(direction, this.snakeBody);

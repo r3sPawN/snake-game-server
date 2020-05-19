@@ -1,8 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+const http = require("http");
 const app = express();
 const snake = require("./routes/snake");
+const SocketIO = require("socket.io");
 
 app.use(express.json());
 

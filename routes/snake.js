@@ -23,8 +23,8 @@ router.post("/", (req, res) => {
       return { x: JSON.parse(info.x), y: JSON.parse(info.y) };
     })
   );
-  const apple_position = new appleEngine(snakeBody, [100, 100]);
-  newSnake.apple_position = apple_position.applePosition;
+  // const apple_position = new appleEngine(snakeBody, [100, 100]);
+  // newSnake.apple_position = apple_position.applePosition;
   newSnake.snake_body = snakeBody;
   newSnake.save().then((snake) => res.json(snake));
   console.log(newSnake);

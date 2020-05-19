@@ -8,16 +8,16 @@ class Apple {
     );
   }
 
-  setNewApplePosition() {
+  setNewApplePosition(snakeBody) {
     this.applePosition = Apple.generateApplePosition(
       this.boardDimensions,
-      this.snakeBody
+      snakeBody
     );
   }
 
   static generateApplePosition(boardDimensions, snakeBody) {
-    const randomX = Math.floor(Math.random() * boardDimensions[0]);
-    const randomY = Math.floor(Math.random() * boardDimensions[1]);
+    const randomX = Math.floor(Math.random() * (60 - 10 + 1) + 10) * 10;
+    const randomY = Math.floor(Math.random() * (60 - 10 + 1) + 10) * 10;
 
     const ApplePosition = { x: randomX, y: randomY };
     if (
@@ -32,8 +32,8 @@ class Apple {
     return ApplePosition;
   }
 
-  isCollided() {
-    const newSnakeBody = this.snakeBody.slice();
+  isCollided(snakeBody) {
+    const newSnakeBody = snakeBody.slice();
     const snakeHead = newSnakeBody.pop();
     const newHead = { ...snakeHead };
 

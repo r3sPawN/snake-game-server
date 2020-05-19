@@ -1,5 +1,8 @@
 import React from "react";
 import "./Board.css";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:4001";
+const socket = socketIOClient(ENDPOINT);
 
 export class Board extends React.Component {
   constructor(props) {
@@ -11,7 +14,7 @@ export class Board extends React.Component {
         { x: 20, y: 0 },
       ],
       snake_direction: "RIGHT",
-      apple_position: [{ x: 50, y: 50 }],
+      apple_position: { x: null, y: null },
     };
   }
 
@@ -19,6 +22,11 @@ export class Board extends React.Component {
     setInterval(() => {
       this.updateState();
     }, 200);
+
+    socket.on("apple_position", (apple_position) => {
+      this.setState({ apple_position: apple_position });
+      console.log(apple_position);
+    });
 
     this.drawBoard();
     this.drawSnake();
@@ -31,26 +39,15 @@ export class Board extends React.Component {
   }
 
   updateState() {
-    const data = this.state;
-
-    fetch("http://localhost:5000/snake", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({
-          snake_body: data.snake_body,
-          //apple_position: data.apple_position,
-        });
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    socket.emit("move", this.state.snake_direction);
+    socket.on("snake_body", (snake) => {
+      this.setState({ snake_body: snake });
+      console.log(snake);
+    });
+    socket.on("apple_position", (apple_position) => {
+      this.setState({ apple_position: apple_position });
+      console.log(apple_position);
+    });
   }
 
   drawBoard = () => {
@@ -86,8 +83,8 @@ export class Board extends React.Component {
     ctx.fillStyle = "red";
     ctx.strokeStyle = "red";
 
-    ctx.fillRect(apple_position[0].x, apple_position[0].y, 10, 10);
-    ctx.strokeRect(apple_position[0].x, apple_position[0].y, 10, 10);
+    ctx.fillRect(apple_position.x, apple_position.y, 10, 10);
+    ctx.strokeRect(apple_position.x, apple_position.y, 10, 10);
   };
 
   handleKeyPress = (event) => {
@@ -110,7 +107,6 @@ export class Board extends React.Component {
     if (event.keyCode === 37) {
       this.setState({ snake_direction: left });
     }
-    console.log(this.state.snake_direction);
   };
 
   render() {
