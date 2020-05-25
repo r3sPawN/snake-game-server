@@ -10,8 +10,8 @@ export class Board extends React.Component {
     this.state = {
       snake_body: [
         { x: 0, y: 0 },
-        { x: 10, y: 0 },
-        { x: 20, y: 0 },
+        { x: 30, y: 0 },
+        { x: 60, y: 0 },
       ],
       snake_direction: "RIGHT",
       apple_position: { x: null, y: null },
@@ -22,6 +22,8 @@ export class Board extends React.Component {
     setInterval(() => {
       this.updateState();
     }, 200);
+
+    this.canvas.focus();
 
     socket.on("apple_position", (apple_position) => {
       this.setState({ apple_position: apple_position });
@@ -42,11 +44,9 @@ export class Board extends React.Component {
     socket.emit("move", this.state.snake_direction);
     socket.on("snake_body", (snake) => {
       this.setState({ snake_body: snake });
-      console.log(snake);
     });
     socket.on("apple_position", (apple_position) => {
       this.setState({ apple_position: apple_position });
-      console.log(apple_position);
     });
   }
 
@@ -64,10 +64,10 @@ export class Board extends React.Component {
     const ctx = this.canvas.getContext("2d");
 
     ctx.fillStyle = "green";
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "black";
 
-    ctx.fillRect(snakePart.x, snakePart.y, 10, 10);
-    ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
+    ctx.fillRect(snakePart.x, snakePart.y, 30, 30);
+    ctx.strokeRect(snakePart.x, snakePart.y, 30, 30);
   };
 
   drawSnake = () => {
@@ -80,16 +80,27 @@ export class Board extends React.Component {
     const { apple_position } = this.state;
     const ctx = this.canvas.getContext("2d");
 
-    ctx.fillStyle = "red";
-    ctx.strokeStyle = "red";
+    let image = new Image();
+    image.onload = function () {
+      ctx.drawImage(image, apple_position.x, apple_position.y, 30, 30);
+    };
+    image.src = "https://media2.giphy.com/media/ycflgA1wZNwUppeah5/source.gif";
 
-    ctx.fillRect(apple_position.x, apple_position.y, 10, 10);
-    ctx.strokeRect(apple_position.x, apple_position.y, 10, 10);
+    // ctx.fillStyle = "red";
+    // ctx.strokeStyle = "red";
+
+    // ctx.fillRect(apple_position.x, apple_position.y, 30, 30);
+    // ctx.strokeRect(apple_position.x, apple_position.y, 30, 30);
+  };
+
+  handleGameOver = () => {
+    var ctx = this.canvas.getContext("2d");
+
+    ctx.font = "20px Georgia";
+    ctx.fillText("Game over", 10, 50);
   };
 
   handleKeyPress = (event) => {
-    console.log("we here");
-
     const down = "DOWN";
     const up = "UP";
     const left = "LEFT";

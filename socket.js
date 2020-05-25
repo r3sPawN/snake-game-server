@@ -15,8 +15,11 @@ let newSnake = new snakeEngine(3);
 
 io.on("connect", (socket) => {
   let apple = new appleEnige(newSnake.snakeBody, [50, 50]);
-  io.emit("apple_position", apple.applePosition);
+  socket.emit("apple_position", apple.applePosition);
   console.log(apple.applePosition);
+  socket.on("error", (error) => {
+    error;
+  });
   socket.on("move", (data) => {
     newSnake.move(data);
     if (apple.isCollided(newSnake.snakeBody)) {
